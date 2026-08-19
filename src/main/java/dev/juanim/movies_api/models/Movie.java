@@ -5,12 +5,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import jakarta.persistence.Entity; /* Indica vía @ que la clase representa una tabla */
+import jakarta.persistence.Table;  /* Anotación para espcificar el nombre de la tabla */
+import jakarta.persistence.Column; /* Por eso daba error: Sin notación column, no lo reconocía */
+
+@Entity 
+@Table(name = "movies")
 public class Movie {
+
+    @Id /* Marcará el campo id como PK */
+    @GeneratedValue(strategy = GenerationType.IDENTITY) /* Análogo de generatedId, pero gestionado por DB */
+    private Long id;
+    
 
     private String title;
 
+    @Column(name = "release_year") /* year palabra reservada? */
     private int year;
 
+    /* Mantener constructor vacío para JPA */
     public Movie() {
     }
 
