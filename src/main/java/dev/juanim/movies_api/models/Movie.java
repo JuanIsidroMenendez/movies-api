@@ -1,35 +1,34 @@
 package dev.juanim.movies_api.models;
 
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Entity; /* Indica vía @ que la clase representa una tabla */
 import jakarta.persistence.Table;  /* Anotación para espcificar el nombre de la tabla */
-import jakarta.persistence.Column; /* Por eso daba error: Sin notación column, no lo reconocía */
 
-@Entity 
+@Entity
 @Table(name = "movies")
 public class Movie {
 
     @Id /* Marcará el campo id como PK */
     @GeneratedValue(strategy = GenerationType.IDENTITY) /* Análogo de generatedId, pero gestionado por DB */
     private Long id;
-    
 
     private String title;
 
-    @Column(name = "release_year") /* year palabra reservada? */
-    private int year;
+    @ManyToOne /* Muchas películas apuntan a un año */
+    @JoinColumn(name = "year_id") /* La columna FK en la tabla movies se llama year_id */
+    private ReleaseYear releaseYear;
 
     /* Mantener constructor vacío para JPA */
     public Movie() {
     }
 
-    public Movie(String title, int year) {
+    public Movie(String title, ReleaseYear releaseYear) {
         this.title = title;
-        this.year = year;
+        this.releaseYear = releaseYear;
     }
 
     public Long getId() {
@@ -48,11 +47,11 @@ public class Movie {
         this.title = title;
     }
 
-    public int getYear() {
-        return year;
+    public ReleaseYear getReleaseYear() {
+        return releaseYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setReleaseYear(ReleaseYear releaseYear) {
+        this.releaseYear = releaseYear;
     }
 }
