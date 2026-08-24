@@ -1,4 +1,4 @@
-package dev.juanim.movies_api.models;
+package dev.juanim.movies_api.movie;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +11,10 @@ import jakarta.persistence.Table;  /* Anotación para espcificar el nombre de la
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinTable;
 import java.util.List;
+
+import dev.juanim.movies_api.genre.Genre;
+import dev.juanim.movies_api.releaseyear.ReleaseYear;
+
 import java.util.ArrayList;
 
 @Entity

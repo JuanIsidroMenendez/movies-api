@@ -1,7 +1,7 @@
 package dev.juanim.movies_api.controllers;
 
-import dev.juanim.movies_api.models.Movie;
-import dev.juanim.movies_api.repositories.MovieRepository;
+import dev.juanim.movies_api.movie.Movie;
+import dev.juanim.movies_api.movie.MovieRepository;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
