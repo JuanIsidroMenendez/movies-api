@@ -1,4 +1,4 @@
-package dev.juanim.movies_api.models;
+package dev.juanim.movies_api.genre;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue; /* Marcador de PK */

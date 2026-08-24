@@ -1,6 +1,4 @@
-package dev.juanim.movies_api.repositories;
-
-import dev.juanim.movies_api.models.Movie;
+package dev.juanim.movies_api.movie;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

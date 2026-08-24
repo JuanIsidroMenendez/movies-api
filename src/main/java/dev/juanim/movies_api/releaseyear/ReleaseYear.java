@@ -1,4 +1,4 @@
-package dev.juanim.movies_api.models;
+package dev.juanim.movies_api.releaseyear;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
