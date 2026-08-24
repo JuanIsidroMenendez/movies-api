@@ -23,4 +23,21 @@ private final MovieRepository movieRepository;
     public Movie getById(Long id) {
         return movieRepository.findById(id).orElse(null);
     }
+
+    @Override /* Con la nueva interfaz, nuevo contrato a cumplir */
+    public Movie create(Movie movie) {
+        return movieRepository.save(movie);
+    }
+    @Override 
+    public Movie update(Long id, Movie movie) {
+        movie.setId(id);
+        return movieRepository.save(movie);
+    }
+    @Override
+    public void delete(Long id) {
+        movieRepository.deleteById(id);
+    }
+
 }
+
+
