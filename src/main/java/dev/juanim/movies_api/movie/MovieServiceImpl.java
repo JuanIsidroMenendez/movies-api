@@ -6,6 +6,8 @@ import dev.juanim.movies_api.implementations.InterfaceGenericWriteService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+import dev.juanim.movies_api.exceptions.MovieNotFoundException;
+
 @Service /* Identifica como servicio. Similar a RestController y Repository*/
 public class MovieServiceImpl implements InterfaceGenericGetService<Movie>, InterfaceGenericWriteService<Movie> {
 
@@ -21,8 +23,9 @@ private final MovieRepository movieRepository;
     }
     @Override /* No es sobrescribir, es CUMPLIMIENTO del contrato. El método cumple lo marcado por la interfaz */
     public Movie getById(Long id) {
-        return movieRepository.findById(id).orElse(null);
+        return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
     }
+        /* Arriba, se añade la excepción creada. Lo mismo para update y delete  */
 
     @Override /* Con la nueva interfaz, nuevo contrato a cumplir */
     public Movie create(Movie movie) {
@@ -30,14 +33,20 @@ private final MovieRepository movieRepository;
     }
     @Override 
     public Movie update(Long id, Movie movie) {
+        if (!movieRepository.existsById(id)) {
+            throw new MovieNotFoundException(id);
+        }
         movie.setId(id);
         return movieRepository.save(movie);
-    }
+        }
+    
     @Override
     public void delete(Long id) {
+        if (!movieRepository.existsById(id)) {
+            throw new MovieNotFoundException(id);
+        }
         movieRepository.deleteById(id);
     }
-
 }
 
 
