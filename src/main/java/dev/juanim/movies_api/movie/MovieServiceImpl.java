@@ -47,6 +47,11 @@ private final MovieRepository movieRepository;
         }
         movieRepository.deleteById(id);
     }
-}
+    /* Lo añado sin @Override, porque no viene de ninguna interfaz */
+    public List<Movie> findByTitle(String title) {
+        return movieRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+}   
 
 
