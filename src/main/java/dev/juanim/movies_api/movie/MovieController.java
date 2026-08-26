@@ -39,7 +39,7 @@ public class MovieController {
         return movieGetService.getEntities();
     }
 
-    @GetMapping("/id")
+    @GetMapping("{id}")
     public Movie getMovieById(@PathVariable Long id) {
         return movieGetService.getById(id);
     }
