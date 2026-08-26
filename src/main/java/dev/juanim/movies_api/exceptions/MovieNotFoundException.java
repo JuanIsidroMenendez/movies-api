@@ -1,4 +1,4 @@
-package dev.juanim.movies_api.exception;
+package dev.juanim.movies_api.exceptions;
 
 public class MovieNotFoundException extends RuntimeException {
 
