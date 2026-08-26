@@ -2,6 +2,9 @@ package dev.juanim.movies_api.movie;
 
 import dev.juanim.movies_api.implementations.InterfaceGenericGetService;
 import dev.juanim.movies_api.implementations.InterfaceGenericWriteService;
+import dev.juanim.movies_api.movie.dtos.MovieRequestDTO;
+import dev.juanim.movies_api.movie.dtos.MovieResponseDTO;
+import dev.juanim.movies_api.movie.mappers.MovieMapper;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
 
 
 import java.util.List;
@@ -33,24 +37,31 @@ public class MovieController {
         this.movieGetService = movieGetService;
         this.movieWriteService = movieWriteService;
     }
-
+    /* Actualizado con List<MovieResponseDTO> */
     @GetMapping
-    public List<Movie> getAllMovies() {
-        return movieGetService.getEntities();
+    public List<MovieResponseDTO> getAllMovies() {
+        return movieGetService.getEntities()
+            .stream()               /* Recorre cada movie, convierte en DTO y recoge la lista */
+            .map(MovieMapper::toDTO)
+            .toList();
     }
 
-    @GetMapping("{id}")
-    public Movie getMovieById(@PathVariable Long id) {
-        return movieGetService.getById(id);
+    @GetMapping("{id}") /* Por que aquí sin /? */
+    public MovieResponseDTO getMovieById(@PathVariable Long id) {
+        return MovieMapper.toDTO(movieGetService.getById(id));
     }
 
-    @PostMapping /* @Request convierte el JSON entrante en Movie */
-    public Movie createMovie(@RequestBody Movie movie) {
-        return movieWriteService.create(movie);
+    @PostMapping /* recibe MovieRequesto DTO con @Valid y devuelve MovieResponseDTO */
+    public MovieResponseDTO createMovie(@Valid @RequestBody MovieRequestDTO dto) {
+        Movie movie = MovieMapper.toEntity(dto);
+        return MovieMapper.toDTO(movieWriteService.create(movie));
     }
+    
     @PutMapping("/{id}")
-    public Movie updateMovie(@PathVariable Long id, @RequestBody Movie movie) {
-        return movieWriteService.update(id, movie); 
+    public MovieResponseDTO updateMovie(@PathVariable Long id, @RequestBody MovieRequestDTO dto) {
+        Movie movie = MovieMapper.toEntity(dto);
+        return MovieMapper.toDTO(movieWriteService.update(id, movie));
+
     }
     @DeleteMapping("/{id}")
     public void deleteMovie(@PathVariable Long id) {
