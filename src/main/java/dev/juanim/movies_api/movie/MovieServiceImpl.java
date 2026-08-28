@@ -4,12 +4,15 @@ package dev.juanim.movies_api.movie;
 import dev.juanim.movies_api.implementations.InterfaceGenericGetService;
 import dev.juanim.movies_api.implementations.InterfaceGenericWriteService;
 import dev.juanim.movies_api.movie.exceptions.MovieNotFoundException;
+import dev.juanim.movies_api.movie.implementations.InterfaceMovieSearchService;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service /* Identifica como servicio. Similar a RestController y Repository*/
-public class MovieServiceImpl implements InterfaceGenericGetService<Movie>, InterfaceGenericWriteService<Movie> {
+public class MovieServiceImpl implements InterfaceGenericGetService<Movie>, 
+                                         InterfaceGenericWriteService<Movie>,
+                                         InterfaceMovieSearchService {
 
 private final MovieRepository movieRepository;
 
@@ -47,7 +50,8 @@ private final MovieRepository movieRepository;
         }
         movieRepository.deleteById(id);
     }
-    /* Lo añado sin @Override, porque no viene de ninguna interfaz */
+    /* Ahora sí tiene interfaz */
+    @Override
     public List<Movie> findByTitle(String title) {
         return movieRepository.findByTitleContainingIgnoreCase(title);
     }
