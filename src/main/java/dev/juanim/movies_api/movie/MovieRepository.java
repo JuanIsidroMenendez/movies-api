@@ -8,4 +8,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     List<Movie> findByTitleContainingIgnoreCase(String title);
 
-}
+    List<Movie> findByGenres_NameContainingIgnoreCase(String name);
+}   /* _Name se usa para buscar el campo NAME, porque por defect esta el id */
