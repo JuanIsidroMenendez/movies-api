@@ -1,9 +1,11 @@
-package dev.juanim.movies_api.exceptions;
+package dev.juanim.movies_api.global;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import dev.juanim.movies_api.movie.exceptions.MovieNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

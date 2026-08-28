@@ -3,10 +3,10 @@ package dev.juanim.movies_api.movie;
 /* Aplicar la interfaz segregada de GetService */
 import dev.juanim.movies_api.implementations.InterfaceGenericGetService;
 import dev.juanim.movies_api.implementations.InterfaceGenericWriteService;
+import dev.juanim.movies_api.movie.exceptions.MovieNotFoundException;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
-
-import dev.juanim.movies_api.exceptions.MovieNotFoundException;
 
 @Service /* Identifica como servicio. Similar a RestController y Repository*/
 public class MovieServiceImpl implements InterfaceGenericGetService<Movie>, InterfaceGenericWriteService<Movie> {
