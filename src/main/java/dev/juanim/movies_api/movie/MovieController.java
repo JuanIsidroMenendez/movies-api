@@ -82,4 +82,11 @@ public class MovieController {
                 .map(movieMapper::toDTO)
                 .toList();
     }
+    @GetMapping("/search/genre")
+    public List<MovieResponseDTO> searchByGenre(@RequestParam String genre) {
+        return movieSearchService.findByGenre(genre)
+                .stream()
+                .map(movieMapper::toDTO)
+                .toList();
+    }
 }
