@@ -8,6 +8,7 @@ public interface InterfaceMovieSearchService {
 
     public List<Movie> findByTitle(String title);
     
+    public List<Movie> findByGenre(String genre);
 }
 
 /* No es genérica porque se ciñe a <Movie>. Las genéricas previas
