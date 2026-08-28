@@ -31,40 +31,43 @@ public class MovieController {
     private final InterfaceGenericGetService<Movie> movieGetService;
     private final InterfaceGenericWriteService<Movie> movieWriteService;
     private final InterfaceMovieSearchService movieSearchService;
+    private MovieMapper movieMapper;
 
     public MovieController(
         InterfaceGenericGetService<Movie> movieGetService,
         InterfaceGenericWriteService<Movie> movieWriteService,
-        InterfaceMovieSearchService movieSearchService)
+        InterfaceMovieSearchService movieSearchService,
+        MovieMapper movieMapper)
         {
         this.movieGetService = movieGetService;
         this.movieWriteService = movieWriteService;
         this.movieSearchService = movieSearchService;
+        this.movieMapper = movieMapper;
     }
     /* Actualizado con List<MovieResponseDTO> */
     @GetMapping
     public List<MovieResponseDTO> getAllMovies() {
         return movieGetService.getEntities()
             .stream()               /* Recorre cada movie, convierte en DTO y recoge la lista */
-            .map(MovieMapper::toDTO)
+            .map(movieMapper::toDTO)
             .toList();
     }
 
     @GetMapping("{id}") /* Por que aquí sin /? */
     public MovieResponseDTO getMovieById(@PathVariable Long id) {
-        return MovieMapper.toDTO(movieGetService.getById(id));
+        return movieMapper.toDTO(movieGetService.getById(id));
     }
 
     @PostMapping /* recibe MovieRequesto DTO con @Valid y devuelve MovieResponseDTO */
     public MovieResponseDTO createMovie(@Valid @RequestBody MovieRequestDTO dto) {
-        Movie movie = MovieMapper.toEntity(dto);
-        return MovieMapper.toDTO(movieWriteService.create(movie));
+        Movie movie = movieMapper.toEntity(dto);
+        return movieMapper.toDTO(movieWriteService.create(movie));
     }
     
     @PutMapping("/{id}")
     public MovieResponseDTO updateMovie(@PathVariable Long id, @RequestBody MovieRequestDTO dto) {
-        Movie movie = MovieMapper.toEntity(dto);
-        return MovieMapper.toDTO(movieWriteService.update(id, movie));
+        Movie movie = movieMapper.toEntity(dto);
+        return movieMapper.toDTO(movieWriteService.update(id, movie));
 
     }
     @DeleteMapping("/{id}")
@@ -76,7 +79,7 @@ public class MovieController {
     public List<MovieResponseDTO> searchByTitle(@RequestParam String title) {
         return movieSearchService.findByTitle(title)
                 .stream()
-                .map(MovieMapper::toDTO)
+                .map(movieMapper::toDTO)
                 .toList();
     }
 }
