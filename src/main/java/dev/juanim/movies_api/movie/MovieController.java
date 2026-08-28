@@ -4,10 +4,12 @@ import dev.juanim.movies_api.implementations.InterfaceGenericGetService;
 import dev.juanim.movies_api.implementations.InterfaceGenericWriteService;
 import dev.juanim.movies_api.movie.dtos.MovieRequestDTO;
 import dev.juanim.movies_api.movie.dtos.MovieResponseDTO;
+import dev.juanim.movies_api.movie.implementations.InterfaceMovieSearchService;
 import dev.juanim.movies_api.movie.mappers.MovieMapper;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam; /* Para endpoint de búsqueda */
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 /* Imports relativos a interfaz Write */
@@ -28,14 +30,16 @@ public class MovieController {
 
     private final InterfaceGenericGetService<Movie> movieGetService;
     private final InterfaceGenericWriteService<Movie> movieWriteService;
-  
+    private final InterfaceMovieSearchService movieSearchService;
 
     public MovieController(
         InterfaceGenericGetService<Movie> movieGetService,
-        InterfaceGenericWriteService<Movie> movieWriteService)
+        InterfaceGenericWriteService<Movie> movieWriteService,
+        InterfaceMovieSearchService movieSearchService)
         {
         this.movieGetService = movieGetService;
         this.movieWriteService = movieWriteService;
+        this.movieSearchService = movieSearchService;
     }
     /* Actualizado con List<MovieResponseDTO> */
     @GetMapping
@@ -66,5 +70,13 @@ public class MovieController {
     @DeleteMapping("/{id}")
     public void deleteMovie(@PathVariable Long id) {
         movieWriteService.delete(id);
+    }
+    
+    @GetMapping("/search")
+    public List<MovieResponseDTO> searchByTitle(@RequestParam String title) {
+        return movieSearchService.findByTitle(title)
+                .stream()
+                .map(MovieMapper::toDTO)
+                .toList();
     }
 }
