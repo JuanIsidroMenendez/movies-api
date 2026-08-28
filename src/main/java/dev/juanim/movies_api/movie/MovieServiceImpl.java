@@ -55,6 +55,11 @@ private final MovieRepository movieRepository;
     public List<Movie> findByTitle(String title) {
         return movieRepository.findByTitleContainingIgnoreCase(title);
     }
+      
+    @Override
+    public List<Movie> findByGenre(String genre) {
+        return movieRepository.findByGenres_NameContainingIgnoreCase(genre);
+    }
 
 }   
 
